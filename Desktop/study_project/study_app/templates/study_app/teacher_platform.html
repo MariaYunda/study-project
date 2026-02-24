@@ -1,0 +1,73 @@
+{% extends 'study_app/base.html' %}
+
+{% block title %}Для преподавателей - Study.IT{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold text-white mb-4">Платформа для преподавателей</h1>
+        <p class="lead text-white-50 col-lg-8 mx-auto">
+            Поделитесь своими знаниями с тысячами студентов по всему миру
+        </p>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card course-card p-5">
+                <i class="fas fa-chart-line fa-4x mb-4" style="color: var(--primary-color);"></i>
+                <h3>Зарабатывайте на знаниях</h3>
+                <p class="text-muted">Получайте доход от продажи своих курсов. Мы берем комиссию всего 15%.</p>
+            </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="card course-card p-5">
+                <i class="fas fa-globe fa-4x mb-4" style="color: var(--primary-color);"></i>
+                <h3>Международная аудитория</h3>
+                <p class="text-muted">Ваши курсы увидят студенты из 45+ стран мира.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card course-card p-5">
+                <i class="fas fa-tools fa-4x mb-4" style="color: var(--primary-color);"></i>
+                <h3>Удобные инструменты</h3>
+                <p class="text-muted">Загружайте видео, пишите статьи, создавайте тесты - всё в одном месте.</p>
+            </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="card course-card p-5">
+                <i class="fas fa-users fa-4x mb-4" style="color: var(--primary-color);"></i>
+                <h3>Сообщество преподавателей</h3>
+                <p class="text-muted">Общайтесь с другими авторами, обменивайтесь опытом.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card course-card p-5 mt-4">
+        <h2 class="text-center mb-4">Создать новый курс</h2>
+        <p class="text-center text-muted mb-4">
+            Функционал создания курсов находится в разработке. Скоро вы сможете загружать свои курсы!
+        </p>
+        <div class="text-center">
+            <button class="btn btn-primary btn-lg" disabled>Создать курс</button>
+        </div>
+        <p class="text-center text-muted mt-3">
+            <i class="fas fa-info-circle"></i> Оставьте заявку, и мы уведомим вас о запуске
+        </p>
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-6">
+                <form>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Ваш email">
+                        <button class="btn btn-primary" type="button">Уведомить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

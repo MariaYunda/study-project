@@ -1,0 +1,112 @@
+{% extends 'study_app/base.html' %}
+
+{% block title %}Регистрация на кемпинг - Study.IT{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold text-white mb-4">Кемпинг Study.IT</h1>
+        <p class="lead text-white-50 col-lg-8 mx-auto">
+            Присоединяйся к международному IT-сообществу, найди друзей и единомышленников
+        </p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card course-card p-5">
+                <h2 class="mb-4">О кемпинге</h2>
+                <p>Кемпинг Study.IT - это уникальная возможность:</p>
+                <ul class="list-unstyled">
+                    <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> Познакомиться с IT-специалистами со всего мира</li>
+                    <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> Участвовать в воркшопах и мастер-классах</li>
+                    <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> Работать над проектами в командах</li>
+                    <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> Найти друзей для совместного обучения</li>
+                    <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> Отдохнуть и получить новые впечатления</li>
+                </ul>
+                
+                <div class="mt-4 p-4 bg-light rounded">
+                    <h5>Ближайшие кемпинги:</h5>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span><i class="fas fa-map-marker-alt text-danger me-2"></i> Таиланд</span>
+                        <span>15-30 июня 2024</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span><i class="fas fa-map-marker-alt text-danger me-2"></i> Грузия</span>
+                        <span>10-25 июля 2024</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span><i class="fas fa-map-marker-alt text-danger me-2"></i> Португалия</span>
+                        <span>5-20 августа 2024</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4">
+            <div class="card course-card p-5">
+                <h2 class="mb-4">Регистрация</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Имя *</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Фамилия *</label>
+                            {{ form.last_name }}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Страна проживания *</label>
+                        {{ form.country }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Желаемая страна для кемпинга *</label>
+                        {{ form.desired_country }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Твоя роль в IT *</label>
+                        {{ form.role }}
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label">Email *</label>
+                        {{ form.email }}
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100 btn-lg">
+                        Зарегистрироваться на кемпинг <i class="fas fa-campground ms-2"></i>
+                    </button>
+                </form>
+                
+                <p class="text-muted text-center mt-3 small">
+                    * Обязательные поля. После регистрации мы пришлем подробную информацию на email.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Галерея с прошлых кемпингов -->
+    <div class="mt-5">
+        <h2 class="text-center text-white mb-4">Как это было</h2>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <img src="https://via.placeholder.com/400x300" class="img-fluid rounded-4" alt="Camping 1">
+            </div>
+            <div class="col-md-4 mb-3">
+                <img src="https://via.placeholder.com/400x300" class="img-fluid rounded-4" alt="Camping 2">
+            </div>
+            <div class="col-md-4 mb-3">
+                <img src="https://via.placeholder.com/400x300" class="img-fluid rounded-4" alt="Camping 3">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
