@@ -1,0 +1,48 @@
+{% extends 'study_app/base.html' %}
+
+{% block title %}Выбери язык - Study.IT{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold text-white mb-4">Какой язык программирования ты хочешь изучать?</h1>
+        <p class="lead text-white-50 col-lg-8 mx-auto">
+            Выбери язык и начни свой путь в IT уже сегодня
+        </p>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <!-- Курсы -->
+    <h2 class="text-center text-white mb-4">Популярные языки</h2>
+    <div class="row">
+        {% for lang in popular_languages %}
+        <div class="col-md-4 col-lg-2 mb-4">
+            <div class="card course-card text-center p-4 h-100">
+                <i class="{{ lang.icon }} fa-4x mb-3" style="color: {{ lang.color }};"></i>
+                <h5 style="color: #ffffff;">{{ lang.name }}</h5>
+                
+                {% if lang.price %}
+                <p class="text-warning fw-bold mt-2">{{ lang.price }} ₽</p>
+                {% endif %}
+                
+                <!-- добавление в корзину -->
+                <form method="post" action="{% url 'study_app:add_to_cart' lang.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary btn-sm mt-2 w-100">
+                        <i class="fas fa-shopping-cart"></i> В корзину
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Кнопка перехода в корзину!! -->
+    <div class="text-center mt-4">
+        <a href="{% url 'study_app:cart' %}" class="btn btn-outline-light">
+            <i class="fas fa-shopping-cart me-2"></i>Перейти в корзину
+        </a>
+    </div>
+</div>
+{% endblock %}

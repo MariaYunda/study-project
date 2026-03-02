@@ -1,0 +1,136 @@
+{% extends 'study_app/base.html' %}
+
+{% block title %}Study.IT - Образовательная платформа{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-3 fw-bold text-white">Учись программировать с <span style="color: #ffd700;">Study.IT</span></h1>
+                <p class="lead text-white-50 mb-4">
+                    Международная online платформа для студентов, преподавателей 
+                    и фанатов программирования со всего мира!
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'study_app:student_choice' %}" class="btn btn-light btn-lg">
+                        Начать обучение <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                    <a href="{% url 'study_app:about' %}" class="btn btn-outline-light btn-lg">
+                        О нас
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Три опции -->
+<div class="container mt-5">
+    <h2 class="text-center text-white mb-5">Выбери свой путь в Study.IT</h2>
+    <div class="row g-4">
+        <!-- студент -->
+        <div class="col-md-4">
+            <div class="card course-card student-card text-center p-4 h-100" style="border-top: 5px solid #3776AB;">
+                <div class="mb-4">
+                    <i class="fas fa-graduation-cap fa-4x" style="color: #3776AB;"></i>
+                </div>
+                <h3 class="mb-3" style="color: #3776AB;">Я - студент</h3>
+                <p class="mb-4" style="color: #ffffff;">
+                    Хочу изучить программирование с нуля или углубить свои знания
+                </p>
+                <div class="mt-auto">
+                    <a href="{% url 'study_app:student_choice' %}" class="btn btn-primary w-100">
+                        Выбрать язык <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+                <div class="mt-3">
+                    <small style="color: #ffffff;">
+                        <i class="fas fa-check-circle text-success"></i> Скидка для студентов ВУЗов
+                    </small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Преподаватель -->
+        <div class="col-md-4">
+            <div class="card course-card teacher-card text-center p-4 h-100" style="border-top: 5px solid #F7DF1E;">
+                <div class="mb-4">
+                    <i class="fas fa-chalkboard-teacher fa-4x" style="color: #F7DF1E;"></i>
+                </div>
+                <h3 class="mb-3" style="color: #F7DF1E;">Я - преподаватель</h3>
+                <p class="mb-4" style="color: #ffffff;">
+                    Хочу поделиться своими знаниями и создать собственный курс
+                </p>
+                <div class="mt-auto">
+                    <a href="{% url 'study_app:teacher_platform' %}" class="btn btn-primary w-100" style="background: #F7DF1E; border-color: #F7DF1E; color: #000;">
+                        Создать курс <i class="fas fa-plus-circle ms-2"></i>
+                    </a>
+                </div>
+                <div class="mt-3">
+                    <small style="color: #ffffff;">
+                        <i class="fas fa-star text-warning"></i> Зарабатывайте на знаниях
+                    </small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Кэмпинг -->
+        <div class="col-md-4">
+            <div class="card course-card friends-card text-center p-4 h-100" style="border-top: 5px solid #6c5ce7;">
+                <div class="mb-4">
+                    <i class="fas fa-users fa-4x" style="color: #6c5ce7;"></i>
+                </div>
+                <h3 class="mb-3" style="color: #6c5ce7">Ищу друзей</h3>
+                <p class="mb-4" style="color: #ffffff">
+                    Хочу найти единомышленников и присоединиться к кемпингу Study.IT
+                </p>
+                <div class="mt-auto">
+                    <a href="{% url 'study_app:camping_registration' %}" class="btn btn-primary w-100" style="background: #6c5ce7; border-color: #6c5ce7;">
+                        Зарегистрироваться на кемпинг <i class="fas fa-campground ms-2"></i>
+                    </a>
+                </div>
+                <div class="mt-3">
+                    <small style="color: #ffffff">
+                        <i class="fas fa-globe text-info"></i> 45+ стран
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Статистика -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card stat-card text-center p-4">
+                <i class="fas fa-users fa-3x mb-3" style="color: white;"></i>
+                <h3 class="fw-bold" style="color: white;">15000+</h3>
+                <p style="color: white;">Студентов</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card stat-card text-center p-4">
+                <i class="fas fa-book-open fa-3x mb-3" style="color: white;"></i>
+                <h3 class="fw-bold" style="color: white;">50+</h3>
+                <p style="color: white;">Курсов</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card stat-card text-center p-4">
+                <i class="fas fa-chalkboard-teacher fa-3x mb-3" style="color: white;"></i>
+                <h3 class="fw-bold" style="color: white;">120+</h3>
+                <p style="color: white;">Преподавателей</p>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="card stat-card text-center p-4">
+                <i class="fas fa-campground fa-3x mb-3" style="color: white;"></i>
+                <h3 class="fw-bold" style="color: white;">5</h3>
+                <p style="color: white;">Кемпингов в год</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

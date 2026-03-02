@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Study.IT{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { 
+            background: #0a1929; 
+            color: #fff; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .hero-section { 
+            background: linear-gradient(135deg, #6b46c1, #4299e1, #9f7aea, #6b46c1);
+            background-size: 300% 300%;
+            padding: 80px 0; 
+            margin-bottom: 50px;
+            animation: softGradient 12s ease infinite;
+        }
+
+        @keyframes softGradient {
+            0% { background-position: 0% 0%; }
+            25% { background-position: 50% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 50% 50%; }
+            100% { background-position: 0% 0%; }
+        }
+        
+        /* Общие стили для всех карточек */
+        .course-card, .stat-card { 
+            background: rgba(255, 255, 255, 0.05); 
+            border-radius: 15px; 
+            transition: all 0.3s ease; 
+            padding: 20px; 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .navbar { 
+            background: #0a1929 !important; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .navbar-brand {
+            color: #ffffff !important;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
+        .nav-link {
+            color: #fff !important;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #ffd700 !important;
+        }
+        
+        /* Стили для карточек опций - каждая со своим цветом */
+        .course-card.student-card:hover {
+            transform: translateY(-5px);
+            border-color: #3776AB !important;
+            box-shadow: 0 0 20px rgba(55, 118, 171, 0.7), 0 0 40px rgba(55, 118, 171, 0.4);
+        }
+        
+        .course-card.student-card:hover i,
+        .course-card.student-card:hover h3 {
+            color: #3776AB !important;
+            text-shadow: 0 0 10px rgba(55, 118, 171, 0.8);
+        }
+        
+        .course-card.teacher-card:hover {
+            transform: translateY(-5px);
+            border-color: #F7DF1E !important;
+            box-shadow: 0 0 20px rgba(247, 223, 30, 0.7), 0 0 40px rgba(247, 223, 30, 0.4);
+        }
+        
+        .course-card.teacher-card:hover i,
+        .course-card.teacher-card:hover h3 {
+            color: #F7DF1E !important;
+            text-shadow: 0 0 10px rgba(247, 223, 30, 0.8);
+        }
+        
+        .course-card.friends-card:hover {
+            transform: translateY(-5px);
+            border-color: #6c5ce7 !important;
+            box-shadow: 0 0 20px rgba(108, 92, 231, 0.7), 0 0 40px rgba(108, 92, 231, 0.4);
+        }
+        
+        .course-card.friends-card:hover i,
+        .course-card.friends-card:hover h3 {
+            color: #6c5ce7 !important;
+            text-shadow: 0 0 10px rgba(108, 92, 231, 0.8);
+        }
+        
+        /* Стили только для карточек статистики */
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .stat-card:hover {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.7), 0 0 40px rgba(255, 255, 255, 0.4);
+            border-color: #ffffff !important;
+            transform: translateY(-5px);
+        }
+        
+        .stat-card:hover i {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            color: #ffffff !important;
+            transition: all 0.3s ease;
+        }
+        
+        /* Стили для кнопок */
+        .btn-primary {
+            background: #3776AB;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+        
+        .btn-primary:hover {
+            background: #2a5a8c;
+        }
+        
+        .btn-warning {
+            background: #F7DF1E;
+            border: none;
+            color: #000;
+        }
+        
+        .btn-warning:hover {
+            background: #e5c50a;
+        }
+        
+        .text-white-50 {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+        
+        footer {
+            background: #0a1929;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        .camping-image-wrapper {
+            width: 100%;
+            height: 450px;
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .camping-image-wrapper:hover {
+            transform: scale(1.03);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        
+        .camping-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .camping-image:hover {
+            transform: scale(1.1);
+        }
+        /* ABOUT */
+    .card {
+        border: none;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 35px rgba(0,0,0,0.4);
+        border-color: rgba(255, 215, 0, 0.4);
+    }
+    
+    .card img {
+        transition: transform 0.5s ease;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    
+    .card:hover img {
+        transform: scale(1.1);
+        border-color: #ffd700 !important;
+        box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'study_app:index' %}">
+                <i class="fas fa-code"></i> Study.IT
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'study_app:index' %}">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'study_app:student_choice' %}">Курсы</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'study_app:about' %}">О нас</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'study_app:cart' %}">
+                            <i class="fas fa-shopping-cart"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</body>
+</html>

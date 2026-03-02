@@ -1,0 +1,166 @@
+{% extends 'study_app/base.html' %}
+{% load static %}
+
+{% block title %}Для преподавателей - Study.IT{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold text-white mb-4">Платформа для преподавателей</h1>
+        <p class="lead text-white-50 col-lg-8 mx-auto">
+            Поделитесь своими знаниями с тысячами студентов по всему миру
+        </p>
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-4 g-3 mb-5">
+    <!-- Карточка 1 -->
+    <div class="col">
+        <div class="card course-card h-100 p-3 text-center">
+            <i class="fas fa-chart-line fa-3x mb-2" style="color: white;"></i>
+            <h5 style="color: white; font-size: 1.1rem;">Зарабатывайте на знаниях</h5>
+            <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.85rem; margin-bottom: 0;">Комиссия всего 15%</p>
+        </div>
+    </div>
+    
+    <!-- Карточка 2 -->
+    <div class="col">
+        <div class="card course-card h-100 p-3 text-center">
+            <i class="fas fa-globe fa-3x mb-2" style="color: white;"></i>
+            <h5 style="color: white; font-size: 1.1rem;">Международная аудитория</h5>
+            <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.85rem; margin-bottom: 0;">45+ стран мира</p>
+        </div>
+    </div>
+    
+    <!-- Карточка 3 -->
+    <div class="col">
+        <div class="card course-card h-100 p-3 text-center">
+            <i class="fas fa-tools fa-3x mb-2" style="color: white;"></i>
+            <h5 style="color: white; font-size: 1.1rem;">Удобные инструменты</h5>
+            <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.85rem; margin-bottom: 0;">Видео, статьи, тесты</p>
+        </div>
+    </div>
+    
+    <!-- Карточка 4 -->
+    <div class="col">
+        <div class="card course-card h-100 p-3 text-center">
+            <i class="fas fa-users fa-3x mb-2" style="color: white;"></i>
+            <h5 style="color: white; font-size: 1.1rem;">Сообщество</h5>
+            <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.85rem; margin-bottom: 0;">Обмен опытом</p>
+        </div>
+    </div>
+</div>
+
+<div class="card course-card p-5 mt-4" style="border: 2px solid var(--primary-color); background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px);">
+    <div class="text-center mb-4">
+        <i class="fas fa-pen-fancy fa-4x mb-3" style="color: white;"></i>
+        <h2 class="mb-3" style="color: white;">Опубликовать статью</h2>
+        <p style="color: rgba(255, 255, 255, 0.9);">Поделитесь своим опытом и знаниями с сообществом</p>
+    </div>
+        
+        <!-- Форма для публикации статьи -->
+        <form method="post" action="{% url 'study_app:publish_article' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <!-- Заголовок -->
+                    <div class="mb-3">
+                        <label for="title" class="form-label text-white">Заголовок статьи</label>
+                        <input type="text" class="form-control" id="title" name="title" required 
+                               placeholder="Например: 10 советов по изучению Python">
+                    </div>
+                    
+                    <!-- Категория -->
+                    <div class="mb-3">
+                        <label for="category" class="form-label text-white">Категория</label>
+                        <select class="form-select" id="category" name="category" required>
+                            <option value="" selected disabled>Выберите категорию</option>
+                            <option value="python">Python</option>
+                            <option value="javascript">JavaScript</option>
+                            <option value="java">Java</option>
+                            <option value="php">PHP</option>
+                            <option value="cpp">C++</option>
+                            <option value="ruby">Ruby</option>
+                            <option value="other">Другое</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Краткое описание -->
+                    <div class="mb-3">
+                        <label for="excerpt" class="form-label text-white">Краткое описание</label>
+                        <textarea class="form-control" id="excerpt" name="excerpt" rows="2" required 
+                                  placeholder="Краткое описание статьи (до 200 символов)"></textarea>
+                    </div>
+                    
+                    <!-- Содержание -->
+                    <div class="mb-3">
+                        <label for="content" class="form-label text-white">Содержание статьи</label>
+                        <textarea class="form-control" id="content" name="content" rows="8" required 
+                                  placeholder="Напишите вашу статью..."></textarea>
+                    </div>
+                    
+                    <!-- Загрузка изображения -->
+                    <div class="mb-3">
+                        <label for="image" class="form-label text-white">Изображение для статьи</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                        <small class="text-muted">Рекомендуемый размер: 1200x630px</small>
+                    </div>
+                    
+                    <!-- Теги -->
+                    <div class="mb-3">
+                        <label for="tags" class="form-label text-white">Теги</label>
+                        <input type="text" class="form-control" id="tags" name="tags" 
+                               placeholder="python, обучение, советы (через запятую)">
+                    </div>
+                    
+                    <!-- Кнопка публикации -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg px-5">
+                            <i class="fas fa-paper-plane me-2"></i>Опубликовать статью
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <!-- опубликованные статьи -->
+<div class="mt-5">
+    <h2 class="text-white text-center mb-4">Последние статьи преподавателей</h2>
+    <div class="row">
+        {% for article in recent_articles %}
+        <div class="col-md-4 mb-4">
+            <div class="card course-card h-100" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">
+                {% if article.image %}
+                <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}">
+                {% else %}
+                <div class="bg-primary text-center p-5">
+                    <i class="fas fa-newspaper fa-4x text-white"></i>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title" style="color: white;">{{ article.title }}</h5>
+                    <p class="card-text" style="color: rgba(255, 255, 255, 0.8);">{{ article.excerpt }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small style="color: rgba(255, 255, 255, 0.6);">
+                            <span style="display: inline-flex; align-items: center; gap: 5px;">
+                                <i class="fas fa-chalkboard-teacher" style="color: white;"></i>
+                                <span style="color: white;">Teacher</span>
+                            </span>
+                        </small>
+                        <small style="color: rgba(255, 255, 255, 0.6);">
+                            <i class="fas fa-calendar me-1"></i>{{ article.created_at|date:"d.m.Y" }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center text-white-50">
+            <p>Пока нет опубликованных статей. Будьте первым!</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

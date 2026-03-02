@@ -1,0 +1,94 @@
+{% extends 'study_app/base.html' %}
+{% load static %}
+
+{% block title %}Корзина - Study.IT{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-white mb-4">Моя корзина</h1>
+    
+    {% if cart_items %}
+    <div class="row">
+        <div class="col-lg-8">
+            {% for item in cart_items %}
+            <div class="card mb-3" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                <div class="row g-0">
+                    <div class="col-md-3">
+                        {% if item.course.language.icon %}
+                        <div class="p-4 text-center">
+                            <i class="{{ item.course.language.icon }} fa-4x" style="color: {{ item.course.language.color|default:'#007bff' }};"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <h5 class="card-title text-white">{{ item.course.title }}</h5>
+                            <p class="card-text text-white-50">{{ item.course.description|truncatechars:100 }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="text-warning fw-bold fs-5">{{ item.course.price }} ₽</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <form method="post" action="{% url 'study_app:update_cart_quantity' item.id %}" class="d-inline-flex align-items-center">
+                                        {% csrf_token %}
+                                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control form-control-sm me-2" style="width: 70px; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                                        <button type="submit" class="btn btn-sm btn-primary me-2">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </form>
+
+                                    <form method="post" action="{% url 'study_app:remove_from_cart' item.id %}" class="d-inline" onsubmit="return confirm('Удалить курс из корзины?');">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                <div class="card-body">
+                    <h5 class="card-title text-white mb-4">Итого</h5>
+                    <div class="d-flex justify-content-between mb-3 text-white">
+                        <span>Товаров:</span>
+                        <span>{{ cart_items|length }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3 text-white">
+                        <span>Сумма:</span>
+                        <span class="fw-bold text-warning">{{ total }} ₽</span>
+                    </div>
+                    <hr style="background-color: rgba(255,255,255,0.2);">
+                    
+                    <form method="post" action="{% url 'study_app:checkout' %}" id="checkout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary w-100 mb-2" id="checkout-btn">
+                            Оформить заказ
+                        </button>
+                    </form>
+                    
+                    <a href="{% url 'study_app:student_choice' %}" class="btn btn-outline-light w-100">
+                        Продолжить покупки
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-shopping-cart fa-5x mb-4" style="color: rgba(255,255,255,0.2);"></i>
+        <h3 class="text-white">Корзина пуста</h3>
+        <p class="text-white-50">Добавьте курсы в корзину, чтобы начать обучение</p>
+        <a href="{% url 'study_app:student_choice' %}" class="btn btn-primary mt-3">
+            Перейти к курсам
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'study_app/base.html' %}
+{% load static %}
+
+{% block title %}О нас - Study.IT{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold text-white mb-4">О платформе Study.IT</h1>
+        <p class="lead text-white-50">Мы объединяем студентов и преподавателей программирования со всего мира</p>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card course-card h-100">
+                <div class="text-center mt-4">
+                    <img src="{% static 'images/about.JPG' %}" 
+                         class="rounded-circle mb-3" 
+                         alt="Наша миссия"
+                         style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #ffd700;">
+                </div>
+                <div class="card-body">
+                    <h3 class="text-white text-center mb-3">Наша миссия</h3>
+                    <p class="text-white-50 text-center px-3">Сделать качественное IT-образование доступным для каждого.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card course-card h-100">
+                <div class="text-center mt-4">
+                    <img src="{% static 'images/about2.JPG' %}" 
+                         class="rounded-circle mb-3" 
+                         alt="Наша команда"
+                         style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #ffd700;">
+                </div>
+                <div class="card-body">
+                    <h3 class="text-white text-center mb-3">Наша команда</h3>
+                    <p class="text-white-50 text-center px-3">Мы - команда энтузиастов, создающих лучшую образовательную платформу.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card course-card h-100">
+                <div class="text-center mt-4">
+                    <img src="{% static 'images/about3.JPG' %}" 
+                         class="rounded-circle mb-3" 
+                         alt="Наши ценности"
+                         style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #ffd700;">
+                </div>
+                <div class="card-body">
+                    <h3 class="text-white text-center mb-3">Наши ценности</h3>
+                    <p class="text-white-50 text-center px-3">Качество, доступность и поддержка каждого студента.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card course-card h-100">
+                <div class="text-center mt-4">
+                    <img src="{% static 'images/about4.JPG' %}" 
+                         class="rounded-circle mb-3" 
+                         alt="Наши достижения"
+                         style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #ffd700;">
+                </div>
+                <div class="card-body">
+                    <h3 class="text-white text-center mb-3">Наши достижения</h3>
+                    <p class="text-white-50 text-center px-3">15,000+ студентов, 50+ курсов, 120+ преподавателей.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Контакты -->
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="card course-card p-5">
+                <h2 class="text-white text-center mb-4">Свяжитесь с нами</h2>
+                <div class="row">
+                    <div class="col-md-4 text-center mb-3">
+                        <i class="fas fa-envelope fa-3x mb-3" style="color: #ffd700;"></i>
+                        <h5 class="text-white mb-2">Email</h5>
+                        <p class="text-white-50">info@study.it</p>
+                    </div>
+                    <div class="col-md-4 text-center mb-3">
+                        <i class="fas fa-phone fa-3x mb-3" style="color: #ffd700;"></i>
+                        <h5 class="text-white mb-2">Телефон</h5>
+                        <p class="text-white-50">+7 (999) 123-45-67</p>
+                    </div>
+                    <div class="col-md-4 text-center mb-3">
+                        <i class="fas fa-map-marker-alt fa-3x mb-3" style="color: #ffd700;"></i>
+                        <h5 class="text-white mb-2">Адрес</h5>
+                        <p class="text-white-50">Москва, ул. Программистов, 1</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
