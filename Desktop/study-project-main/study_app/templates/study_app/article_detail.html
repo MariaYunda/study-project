@@ -1,0 +1,61 @@
+{% extends 'study_app/base.html' %}
+
+{% block title %}{{ article.title }} - Study.IT{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'study_app:index' %}">Главная</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'study_app:article_list' %}">Статьи</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ article.title|truncatechars:30 }}</li>
+        </ol>
+    </nav>
+    
+    <div class="card article-detail-card">
+        {% if article.image %}
+        <div class="image-container">
+            <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}">
+        </div>
+        {% endif %}
+        
+        <div class="card-body">
+            <span class="badge">{{ article.get_category_display }}</span>
+            
+            <h1 class="card-title">{{ article.title }}</h1>
+            
+            <div class="meta-info">
+                <div class="author-info">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="author-details">
+                        <h6>{% if article.author %}{{ article.author.username }}{% else %}Администратор{% endif %}</h6>
+                        <small>Автор статьи</small>
+                    </div>
+                </div>
+                
+                <div class="date-tags">
+                    <span><i class="far fa-calendar-alt"></i> {{ article.created_at|date:"d.m.Y" }}</span>
+                    {% if article.tags %}
+                    <span><i class="fas fa-tags"></i> {{ article.tags }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="article-content">
+                {{ article.content|linebreaks }}
+            </div>
+            
+            <hr>
+            
+            <div class="article-footer">
+                <a href="{% url 'study_app:article_list' %}" class="btn-outline-light">
+                    <i class="fas fa-arrow-left"></i> Все статьи
+                </a>
+                <span class="views-count">
+                    <i class="far fa-eye"></i> {{ article.views|default:"0" }} просмотров
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

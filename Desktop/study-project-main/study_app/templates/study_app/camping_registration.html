@@ -1,0 +1,129 @@
+{% extends 'study_app/base.html' %}
+{% load static %} 
+
+{% block title %}Регистрация на кемпинг - Study.IT{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold text-white mb-4">Кемпинг Study.IT</h1>
+        <p class="lead text-white-50 col-lg-8 mx-auto">
+            Присоединяйся к международному IT-сообществу, найди друзей и единомышленников
+        </p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Галерея -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center text-white mb-4">Как это было</h2>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="camping-image-wrapper">
+                <img src="{% static 'images/camp1.JPG' %}" 
+                     class="img-fluid rounded-4 camping-image" 
+                     alt="Кемпинг в Таиланде"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=Таиланд'">
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="camping-image-wrapper">
+                <img src="{% static 'images/camp2.JPG' %}" 
+                     class="img-fluid rounded-4 camping-image" 
+                     alt="Кемпинг в Грузии"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=Грузия'">
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="camping-image-wrapper">
+                <img src="{% static 'images/camp3.jpg' %}" 
+                     class="img-fluid rounded-4 camping-image" 
+                     alt="Кемпинг в Португалии"
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=Португалия'">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card course-card p-5">
+                <h2 class="mb-4 text-white">О кемпинге</h2>
+                <p class="text-white">Кемпинг Study.IT - это уникальная возможность:</p>
+                <ul class="list-unstyled">
+                    <li class="mb-3 text-white"><i class="fas fa-check-circle text-success me-2"></i> Познакомиться с IT-специалистами со всего мира</li>
+                    <li class="mb-3 text-white"><i class="fas fa-check-circle text-success me-2"></i> Участвовать в воркшопах и мастер-классах</li>
+                    <li class="mb-3 text-white"><i class="fas fa-check-circle text-success me-2"></i> Работать над проектами в командах</li>
+                    <li class="mb-3 text-white"><i class="fas fa-check-circle text-success me-2"></i> Найти друзей для совместного обучения</li>
+                    <li class="mb-3 text-white"><i class="fas fa-check-circle text-success me-2"></i> Отдохнуть и получить новые впечатления</li>
+                </ul>
+                
+                <div class="mt-4 p-4 bg-light rounded">
+                    <h5 class="text-dark">Ближайшие кемпинги:</h5>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-dark"><i class="fas fa-map-marker-alt text-danger me-2"></i> Таиланд</span>
+                        <span class="text-dark">15-30 июня 2026</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-dark"><i class="fas fa-map-marker-alt text-danger me-2"></i> Грузия</span>
+                        <span class="text-dark">10-25 июля 2026</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-dark"><i class="fas fa-map-marker-alt text-danger me-2"></i> Португалия</span>
+                        <span class="text-dark">5-20 августа 2026</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6 mb-4">
+            <div class="card course-card p-5">
+                <h2 class="mb-4 text-white">Регистрация</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-white">Имя *</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-white">Фамилия *</label>
+                            {{ form.last_name }}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-white">Страна проживания *</label>
+                        {{ form.country }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-white">Желаемая страна для кемпинга *</label>
+                        {{ form.desired_country }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-white">Твоя роль в IT *</label>
+                        {{ form.role }}
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label text-white">Email *</label>
+                        {{ form.email }}
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100 btn-lg">
+                        Зарегистрироваться на кемпинг <i class="fas fa-campground ms-2"></i>
+                    </button>
+                </form>
+                
+                <p class="text-white-50 text-center mt-3 small">
+                    * Обязательные поля. После регистрации мы пришлем подробную информацию на email.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
