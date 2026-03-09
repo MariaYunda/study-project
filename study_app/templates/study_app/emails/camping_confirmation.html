@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подтверждение регистрации на кемпинг</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #6b46c1, #4299e1);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .content {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+        }
+        .info-box {
+            background: white;
+            border-left: 4px solid #6b46c1;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+        }
+        .button {
+            display: inline-block;
+            background: #6b46c1;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Study.IT Camping</h1>
+            <p>Ваше приключение начинается!</p>
+        </div>
+        
+        <div class="content">
+            <h2>Здравствуйте, {{ first_name }} {{ last_name }}!</h2>
+            
+            <p>Спасибо за регистрацию на кемпинг Study.IT! Мы очень рады, что вы решили присоединиться к нашему международному IT-сообществу.</p>
+            
+            <div class="info-box">
+                <h3 style="margin-top: 0; color: #6b46c1;">Детали вашей регистрации:</h3>
+                <p><strong>👤 Имя:</strong> {{ first_name }} {{ last_name }}</p>
+                <p><strong>📍 Страна кемпинга:</strong> {{ country }}</p>
+            </div>
+            
+            <h3>Что дальше?</h3>
+            <ul>
+                <li>В ближайшие дни мы пришлем вам подробную программу кемпинга</li>
+                <li>Вы получите информацию о трансфере и проживании</li>
+                <li>Мы расскажем, что нужно взять с собой</li>
+                <li>Вы сможете познакомиться с другими участниками в нашем Telegram-чате</li>
+            </ul>
+            
+            <p>Если у вас возникли вопросы, не стесняйтесь отвечать на это письмо или писать нам в Telegram.</p>
+            
+            <p>До встречи на кемпинге! 🏕️</p>
+            
+            <div class="footer">
+                <p>С уважением,<br>Команда Study.IT</p>
+                <p style="font-size: 12px;">
+                    <a href="#">Наш сайт</a> | 
+                    <a href="#">Telegram</a> | 
+                    <a href="#">Instagram</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

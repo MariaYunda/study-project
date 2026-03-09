@@ -1,0 +1,44 @@
+{% extends 'study_app/base.html' %}
+
+{% block title %}Статьи - Study.IT{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center text-white mb-5">Статьи и новости Study.IT</h1>
+    
+    <div class="row g-4">
+        {% for article in articles %}
+        <div class="col-md-4 mb-4">
+            <div class="card article-card h-100">
+                {% if article.image %}
+                <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}">
+                {% else %}
+                <div class="card-img-top placeholder">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <span class="badge mb-2">{{ article.get_category_display }}</span>
+                    <h5 class="card-title text-white">{{ article.title }}</h5>
+                    <p class="card-text text-white-50">{{ article.excerpt|truncatechars:100 }}</p>
+                </div>
+                <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
+                    <small class="text-white-50">
+                        <i class="far fa-calendar-alt"></i> {{ article.created_at|date:"d.m.Y" }}
+                    </small>
+                    <a href="{% url 'study_app:article_detail' article.id %}" class="btn btn-outline-light btn-sm">
+                        Читать <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center text-white">
+            <i class="fas fa-newspaper fa-5x mb-3" style="opacity: 0.5;"></i>
+            <h3>Пока нет статей</h3>
+            <p class="text-white-50">Скоро здесь появятся интересные материалы</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'study_app/base.html' %}
+
+{% block title %}Курсы - Study.IT{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold text-white mb-4">Все курсы Study.IT</h1>
+        <p class="lead text-white-50">Выберите курс и начните обучение сегодня</p>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h3>Скоро здесь появятся курсы!</h3>
+            <p class="text-muted">Мы активно работаем над наполнением платформы.</p>
+        </div>
+    </div>
+</div>
+{% for course in courses %}
+<div class="col-md-4 mb-4">
+    <div class="card course-card h-100">
+        <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="{{ course.title }}">
+        <div class="card-body">
+            <h5 class="card-title">{{ course.title }}</h5>
+            <p class="card-text text-white-50">{{ course.description|truncatechars:100 }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="text-warning fw-bold">{{ course.price }} ₽</span>
+                <button class="btn btn-primary" onclick="addToCart({{ course.id }})">
+                    <i class="fas fa-shopping-cart"></i> В корзину
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<script>
+function addToCart(courseId) {
+    fetch(`/add-to-cart/${courseId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            document.getElementById('cart-counter').textContent = data.cart_count;
+            alert(data.message);
+        }
+    });
+}
+</script>
+{% endblock %}
+

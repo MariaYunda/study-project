@@ -1,0 +1,154 @@
+{% extends 'study_app/base.html' %}
+{% load static %}
+
+{% block title %}Корзина - Study.IT{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-white mb-4">Моя корзина</h1>
+    
+    {% if cart_items %}
+    <div class="row">
+        <div class="col-lg-8">
+            {% for item in cart_items %}
+            <div class="card mb-3" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                <div class="row g-0">
+                    <div class="col-md-3">
+                        {% if item.course.language.icon %}
+                        <div class="p-4 text-center">
+                            <i class="{{ item.course.language.icon }} fa-4x" style="color: {{ item.course.language.color|default:'#007bff' }};"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <h5 class="card-title text-white">{{ item.course.title }}</h5>
+                            <p class="card-text text-white-50">{{ item.course.description|truncatechars:100 }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="text-warning fw-bold fs-5">{{ item.course.price }} ₽</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <form method="post" action="{% url 'study_app:update_cart_quantity' item.id %}" class="d-inline-flex align-items-center">
+                                        {% csrf_token %}
+                                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="form-control form-control-sm me-2" style="width: 70px; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                                        <button type="submit" class="btn btn-sm btn-primary me-2">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </form>
+
+                                    <form method="post" action="{% url 'study_app:remove_from_cart' item.id %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);">
+                <div class="card-body">
+                    <h5 class="card-title text-white mb-4">Итого</h5>
+                    <div class="d-flex justify-content-between mb-3 text-white">
+                        <span>Товаров:</span>
+                        <span>{{ cart_items|length }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3 text-white">
+                        <span>Сумма:</span>
+                        <span class="fw-bold text-warning">{{ total }} ₽</span>
+                    </div>
+                    <hr style="background-color: rgba(255,255,255,0.2);">
+                    
+                    <!-- Кнопка оформления заказа с data-bs-toggle -->
+                    <button type="button" class="btn btn-primary w-100 mb-2" data-bs-toggle="modal" data-bs-target="#emailModal">
+                        Оформить заказ
+                    </button>
+                    
+                    <a href="{% url 'study_app:student_choice' %}" class="btn btn-outline-light w-100">
+                        Продолжить покупки
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-shopping-cart fa-5x mb-4" style="color: rgba(255,255,255,0.2);"></i>
+        <h3 class="text-white">Корзина пуста</h3>
+        <p class="text-white-50">Добавьте курсы в корзину, чтобы начать обучение</p>
+        <a href="{% url 'study_app:student_choice' %}" class="btn btn-primary mt-3">
+            Перейти к курсам
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Модальное окно для ввода email -->
+<div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background: #0a1929; border: 1px solid rgba(255, 255, 255, 0.2);">
+            <div class="modal-header border-bottom-0">
+                <h5 class="modal-title text-white" id="emailModalLabel">
+                    <i class="fas fa-envelope me-2" style="color: #ffd700;"></i>
+                    Оформление заказа
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'study_app:checkout' %}" id="checkout-form">
+                    {% csrf_token %}
+                    
+                    <!-- Список товаров -->
+                    <div class="mb-4">
+                        <h6 class="text-white-50 mb-3">Ваш заказ:</h6>
+                        {% for item in cart_items %}
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <span class="text-white">{{ item.course.title }}</span>
+                                <small class="text-white-50 d-block">{{ item.quantity }} x {{ item.course.price }} ₽</small>
+                            </div>
+                            <span class="text-warning">{{ item.course.price|floatformat:0 }} ₽</span>
+                        </div>
+                        {% endfor %}
+                        
+                        <div class="d-flex justify-content-between mt-3 pt-2" style="border-top: 1px solid rgba(255,255,255,0.1);">
+                            <span class="text-white fw-bold">Итого:</span>
+                            <span class="text-warning fw-bold">{{ total }} ₽</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Поле для email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label text-white">
+                            <i class="fas fa-envelope me-2" style="color: #ffd700;"></i>
+                            Email для отправки информации о заказе
+                        </label>
+                        <input type="email" class="form-control" id="email" name="email" 
+                               placeholder="example@mail.com" 
+                               value="{{ user.email|default:'' }}"
+                               required
+                               style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                        <small class="text-white-50 mt-2 d-block">
+                            <i class="fas fa-info-circle me-1" style="color: #ffd700;"></i>
+                            На этот email придет подтверждение заказа и информация о курсах
+                        </small>
+                    </div>
+                    
+                    <!-- Кнопка подтверждения -->
+                    <button type="submit" class="btn btn-primary w-100 mt-3">
+                        <i class="fas fa-check-circle me-2"></i>
+                        Подтвердить заказ
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
