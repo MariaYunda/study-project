@@ -1,0 +1,122 @@
+{% extends 'study_app/base.html' %}
+{% load static %}
+
+{% block title %}Выбери курс - Study.IT{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold text-white mb-4">Какой язык программирования ты хочешь изучать?</h1>
+        <p class="lead text-white-50 col-lg-8 mx-auto">
+            Выбери курс и начни свой путь в IT уже сегодня
+        </p>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <!-- Курсы - только 3 карточки -->
+    <h2 class="text-center text-white mb-4">Популярные курсы</h2>
+    <div class="row g-4 justify-content-center">
+        {% for course in courses|slice:":3" %}
+        <div class="col-lg-4 col-md-6">
+            <div class="card course-card h-100" onclick="window.location.href='{% url 'study_app:course_detail' course.slug %}'" style="cursor: pointer;">
+                <!-- Изображение курса -->
+                {% if course.image %}
+                <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.title }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                <img src="{% static 'images/course.jpg' %}" class="card-img-top" alt="{{ course.title }}" style="height: 200px; object-fit: cover;">
+                {% endif %}
+                
+                <div class="card-body">
+                    <!-- Заголовок и цена -->
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title text-white fw-bold">{{ course.title }}</h5>
+                        <span class="badge bg-warning text-dark">{{ course.price }} ₽</span>
+                    </div>
+                    
+                    <!-- Язык и уровень -->
+                    <div class="d-flex justify-content-between mb-2">
+                        {% if course.language %}
+                        <span class="text-white-50">
+                            <i class="{{ course.language.icon }} me-1" style="color: {{ course.language.color }};"></i>
+                            {{ course.language.name }}
+                        </span>
+                        {% else %}
+                        <span class="text-white-50">
+                            <i class="fas fa-code me-1"></i>
+                            Программирование
+                        </span>
+                        {% endif %}
+                        <span class="badge {% if course.level == 'beginner' %}bg-success{% elif course.level == 'intermediate' %}bg-warning text-dark{% else %}bg-danger{% endif %}">
+                            {{ course.get_level_display }}
+                        </span>
+                    </div>
+                    
+                    <!-- Краткое описание -->
+                    <p class="card-text text-white-50">{{ course.description|truncatechars:80 }}</p>
+                    
+                    <!-- Рейтинг и автор -->
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div class="text-warning">
+                            {% for i in "12345"|make_list %}
+                                {% if forloop.counter <= course.rating %}
+                                <i class="fas fa-star"></i>
+                                {% else %}
+                                <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <small class="text-white-50">
+                            <i class="fas fa-user me-1" style="color: #ffd700;"></i>
+                            {{ course.author.name|default:"Study.IT" }}
+                        </small>
+                    </div>
+                    
+                    <!-- Дата создания -->
+                    <div class="text-end mt-2">
+                        <small class="text-white-50">
+                            <i class="far fa-calendar-alt me-1" style="color: #ffd700;"></i>
+                            {{ course.created_at|date:"d.m.Y" }}
+                        </small>
+                    </div>
+                </div>
+                
+                <!-- Кнопка добавления в корзину -->
+                <div class="card-footer bg-transparent border-0 pt-0">
+                    {% if course.language %}
+                    <form method="post" action="{% url 'study_app:add_to_cart' course.language.id %}" onclick="event.stopPropagation();">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-sm w-100">
+                            <i class="fas fa-shopping-cart me-1"></i> В корзину
+                        </button>
+                    </form>
+                    {% else %}
+                    <button class="btn btn-secondary btn-sm w-100" disabled>
+                        <i class="fas fa-shopping-cart me-1"></i> Скоро в продаже
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Кнопка перехода в корзину -->
+    <div class="text-center mt-5">
+        <a href="{% url 'study_app:cart' %}" class="btn btn-outline-light btn-lg">
+            <i class="fas fa-shopping-cart me-2"></i>Перейти в корзину
+        </a>
+    </div>
+</div>
+
+<style>
+.course-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+</style>
+{% endblock %}

@@ -1,0 +1,251 @@
+{% extends 'study_app/base.html' %}
+{% load static %}
+
+{% block title %}{{ course.title }} - Study.IT{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Хлебные крошки -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'study_app:index' %}" class="text-white-50">Главная</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'study_app:student_choice' %}" class="text-white-50">Курсы</a></li>
+            <li class="breadcrumb-item active text-white" aria-current="page">{{ course.title }}</li>
+        </ol>
+    </nav>
+
+    <!-- Основная информация о курсе -->
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Изображение курса -->
+            <div class="card course-detail-card mb-4">
+                {% if course.image %}
+                <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.title }}" style="max-height: 400px; object-fit: cover;">
+                {% else %}
+                <div class="bg-primary text-white text-center p-5" style="min-height: 300px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-code fa-5x"></i>
+                </div>
+                {% endif %}
+                
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h1 class="card-title text-white">{{ course.title }}</h1>
+                        <span class="badge bg-warning text-dark fs-6">{{ course.price }} ₽</span>
+                    </div>
+                    
+                    <p class="card-text text-white-50 fs-5">{{ course.description }}</p>
+                    
+                    <div class="d-flex flex-wrap gap-4 mt-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-star text-warning me-2"></i>
+                            <span class="text-white">{{ course.rating }} ({{ course.reviews_count }} отзывов)</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-users text-info me-2"></i>
+                            <span class="text-white">{{ course.students_count }} студентов</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-clock text-success me-2"></i>
+                            <span class="text-white">{{ course.duration_hours }} часов</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-signal text-primary me-2"></i>
+                            <span class="text-white">{{ course.get_level_display }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Об авторе -->
+            {% if course.author %}
+            <div class="card course-detail-card mb-4">
+                <div class="card-body">
+                    <h3 class="text-white mb-3">Об авторе</h3>
+                    <div class="d-flex align-items-center">
+                        {% if course.author.avatar %}
+                        <img src="{{ course.author.avatar.url }}" class="rounded-circle me-3" width="80" height="80" alt="{{ course.author.name }}">
+                        {% else %}
+                        <div class="rounded-circle bg-secondary me-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                            <i class="fas fa-user fa-3x text-white-50"></i>
+                        </div>
+                        {% endif %}
+                        <div>
+                            <h4 class="text-white mb-1">{{ course.author.name }}</h4>
+                            <p class="text-white-50 mb-2">{{ course.author.bio|truncatechars:100 }}</p>
+                            <div class="d-flex gap-3">
+                                <small class="text-white-50"><i class="fas fa-briefcase me-1"></i> {{ course.author.experience }} лет опыта</small>
+                                <small class="text-white-50"><i class="fas fa-users me-1"></i> {{ course.author.students_count }} студентов</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Модули и уроки -->
+            <div class="card course-detail-card">
+                <div class="card-body">
+                    <h3 class="text-white mb-3">Программа курса</h3>
+                    
+                    <div class="accordion" id="modulesAccordion">
+                        {% for module in course.modules.all %}
+                        <div class="accordion-item mb-3" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                            <h2 class="accordion-header" id="heading{{ module.id }}">
+                                <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ module.id }}" style="background: rgba(255,255,255,0.1); color: white;">
+                                    <div class="d-flex justify-content-between w-100 me-3">
+                                        <span>{{ module.title }}</span>
+                                        <span class="badge bg-info">{{ module.lessons.count }} уроков</span>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div id="collapse{{ module.id }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" data-bs-parent="#modulesAccordion">
+                                <div class="accordion-body">
+                                    {% if module.description %}
+                                    <p class="text-white-50 mb-3">{{ module.description }}</p>
+                                    {% endif %}
+                                    
+                                    <div class="list-group">
+                                        {% for lesson in module.lessons.all %}
+                                        <div class="list-group-item d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white;">
+                                            <div>
+                                                <i class="fas fa-play-circle me-2" style="color: #ffd700;"></i>
+                                                {{ lesson.title }}
+                                                {% if lesson.is_free %}
+                                                <span class="badge bg-success ms-2">Бесплатно</span>
+                                                {% endif %}
+                                            </div>
+                                            <div>
+                                                <span class="text-white-50 me-3">{{ lesson.duration_minutes }} мин</span>
+                                                {% if lesson.is_free %}
+                                                <button class="btn btn-sm btn-outline-light" onclick="window.location.href='{{ lesson.video_url }}'">Смотреть</button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p class="text-white-50">Программа курса скоро будет добавлена</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Сайдбар -->
+        <div class="col-lg-4">
+            <div class="card course-detail-card sticky-top" style="top: 20px;">
+                <div class="card-body">
+                    <h4 class="text-white mb-3">Этот курс включает</h4>
+                    
+                    <ul class="list-unstyled">
+                        <li class="mb-3 text-white-50">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            {{ course.duration_hours }} часов видео
+                        </li>
+                        <li class="mb-3 text-white-50">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            {{ course.modules.count }} модулей обучения
+                        </li>
+                        <li class="mb-3 text-white-50">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            Сертификат об окончании
+                        </li>
+                        <li class="mb-3 text-white-50">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            Доступ навсегда
+                        </li>
+                        <li class="mb-3 text-white-50">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            Домашние задания
+                        </li>
+                    </ul>
+                    
+                    <hr style="background: rgba(255,255,255,0.1);">
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="text-white fs-4">Цена:</span>
+                        <span class="text-warning fs-3 fw-bold">{{ course.price }} ₽</span>
+                    </div>
+                    
+                    <form method="post" action="{% url 'study_app:add_to_cart' course.language.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary w-100 mb-2 py-3">
+                            <i class="fas fa-shopping-cart me-2"></i> Добавить в корзину
+                        </button>
+                    </form>
+                    
+                    <button class="btn btn-outline-light w-100 py-3" onclick="window.location.href='{% url 'study_app:student_choice' %}'">
+                        Другие курсы
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Отзывы -->
+    {% if course.reviews.exists %}
+    <div class="card course-detail-card mt-4">
+        <div class="card-body">
+            <h3 class="text-white mb-4">Отзывы студентов</h3>
+            
+            {% for review in course.reviews.all %}
+            <div class="mb-4 pb-3" style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                            <i class="fas fa-user text-white-50"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-white mb-0">{{ review.user.username }}</h6>
+                            <small class="text-white-50">{{ review.created_at|date:"d.m.Y" }}</small>
+                        </div>
+                    </div>
+                    <div class="text-warning">
+                        {% for i in "12345"|make_list %}
+                            {% if forloop.counter <= review.rating %}
+                            <i class="fas fa-star"></i>
+                            {% else %}
+                            <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <p class="text-white-50 mt-2">{{ review.comment }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.course-detail-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+}
+
+.accordion-button:not(.collapsed) {
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
+}
+
+.accordion-button::after {
+    filter: invert(1);
+}
+
+.list-group-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.list-group-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+</style>
+{% endblock %}
